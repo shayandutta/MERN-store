@@ -9,13 +9,20 @@ const express = require('express');
 const router = express.Router();
 // const {home, register} = require("../controllers/auth.controller") //not a good practice
 const authcontrollers = require("../controllers/auth.controller.js")  //clean code and good practice
+//form validation with zod
+const signupSchema = require("../validators/auth.validator.js")
+const validate = require("../middlewares/validate.middleware.js")
 
 // router.get("/", (req, res)=> {
 //     res.status(200).send("router setup")
 // })
 
 
-router.route("/register").post(authcontrollers.register)
+
+//defining the routes
+
+router.route("/register").post( validate(signupSchema), authcontrollers.register) //pehle check kar rahe hai (validate kar rahe hai) ki sab thik hai ki nahi, 
+//uske baad registration wale middleware pr jayega
 
 router.route("/login").post(authcontrollers.login);
 
